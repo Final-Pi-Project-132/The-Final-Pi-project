@@ -2,4 +2,5 @@
 2. Open Github Desktop
 3. Click File On the Github Desktop
 4. Click Add Local Repository (This will be that empty file that you created.) 
-5. 
+5. Take your code/files and place it into said folder, (or use GitBash to place it into the folder)
+6. Then you want to publish and it will ask you if you want to commit or "Push your file." 
