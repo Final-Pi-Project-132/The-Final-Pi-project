@@ -1,4 +1,4 @@
-1. Create an empty file onto your desktop
+1. Create an empty file onto your desktop (Make sure to clone the Final Pi- project Repository to this selected file)! 
 2. Open Github Desktop
 3. Click File On the Github Desktop
 4. Click Add Local Repository (This will be that empty file that you created.) 
