@@ -1,5 +1,5 @@
 # import all of tkinter for the gui to run
-from Tkinter import*
+from Tkinter import *
 
 def m1Button(self):
     Menu.currentScreen == m2
@@ -32,6 +32,7 @@ class Menu(Frame):
     def __init__(self, parent):
     # call the constructor in the superclass
         Frame.__init__(self, parent)
+        
     def createMenus(self):
         # Create the menus that the Menu/ simulator will have.
         # This number can be changed later for accomidations.
@@ -53,10 +54,10 @@ class Menu(Frame):
             # the widget is a Tkinter Label
             # don't let the image control the widget's size
         img = None
-        Menu.image = Label(self,image=img)
+        Menu.image = Label(self, image = img)
         Menu.image.image = img
-        Menu.image.pack(fill = X and Y)#side = BOTH, fill=Y)
-        #Menu.image.pack_propagate(False)
+        Menu.image.pack(fill = X and Y)# side = BOTH, fill=Y)
+        # Menu.image.pack_propagate(False)
             # setup the text to the right of the GUI
             # first, the frame in which the text will be placed
 
@@ -71,7 +72,7 @@ class Menu(Frame):
             button1 = PhotoImage(file = 'button1.gif')
             Button(window, text = 'PLAY', image = button1, command = m1Button).pack(side = TOP)
 
-        # play the Menu
+    # play the Menu
     def play(self):
         # add the rooms to the Menu
         self.createMenus()
@@ -80,19 +81,19 @@ class Menu(Frame):
         # set the current room
         self.setMenuImage()
         self.createButtons()
-        #self.callback()
+        # self.callback()
 
 WIDTH = 900
 HEIGHT = 900
 window = Tk()
 window.title("Xylophone Simulator")
 # create the GUI as a Tkinter canvas inside the window
-#b1 = Button(master, text = 'PLAY')
-# place can specify the button's coordinates
-#b.place(w = 100, y = 100, relwidth = 50, relheight = 50, width = -50, height = -50, anchor = 'c')
-#b.pack(fill = BOTH)#height = 10, width = 10)
+# b1 = Button(master, text = 'PLAY')
+#  place can specify the button's coordinates
+# b.place(w = 100, y = 100, relwidth = 50, relheight = 50, width = -50, height = -50, anchor = 'c')
+# b.pack(fill = BOTH)#height = 10, width = 10)
 s = Menu(window)
 # play the Menu
 s.play()
-#s.btn.pack(side = 'top')
+# s.btn.pack(side = 'top')
 window.mainloop()
