@@ -16,8 +16,13 @@ class Song(object):
         self.name = ""
     #song hot cross buns
     def HotCrossBuns():
-        self.name = "hCB"
-        song = [[self.b, 0.0], [self.a, 0.5], [self.g, o.5], [self.b, 0.75], [self.a, 0.5], [self.g, 0.5], [self.g, 0.75], [self.g, 0.25], [self.g, 0.25], [self.g, 0.25], [self.a, 0.25], [self.a, 0.25], [self.a, 0.25], [self.a, 0.25], [self.b, 0.5], [self.a, 0.5], [self.g, 0.5]]
+        self.name = "Hot Cross Buns"
+        song = [[self.b, 0.0], [self.a, 0.5], [self.g, 0.5],\
+                [self.b, 0.75], [self.a, 0.5], [self.g, 0.5],\
+                [self.g, 0.75], [self.g, 0.25], [self.g, 0.25],\
+                [self.g, 0.25], [self.a, 0.25], [self.a, 0.25],\
+                [self.a, 0.25], [self.a, 0.25], [self.b, 0.5],\
+                [self.a, 0.5], [self.g, 0.5]]
         return [self.name, song]
 
     def song2():
