@@ -1,8 +1,0 @@
-1. Create an empty file onto your desktop
-2. Open Github Desktop
-3. Click File On the Github Desktop
-4. Click Add Local Repository (This will be that empty file that you created.) 
-5. Take your code/files and place it into said folder, (or use GitBash to place it into the folder)
-6. Then you want to commit it to the current branch. 
-7. After you commit it to the current Branch, that is when "Push Origin" will appear. 
-8. Click Push Origin and your file will be inside of the main repository that the group can see.
