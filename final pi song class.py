@@ -36,4 +36,6 @@ class Song(object):
     #song baby shark
     def Baby_shark():
         self.name= "Baby Shark"
-        song = [[self.c_low, 0.0], [self.d, 0.5], [], [], [], [], [], [], [], [], [], [], [], [], [],]
+        song = [[self.c_low, 0.0], [self.d, 0.5], [self.f, 0.5], [self.f, 0.25], [self.f, 0.25], [self.f, 0.25], [self.f, 0.25], [self.f, 0.25], [self.f, 0.25],\
+                [self.c_low, 0.5], [self.d, 0.5], [self.f, 0.5], [self.f, 0.25], [self.f, 0.25], [self.f, 0.25],\
+                [self.f, 0.25], [self.f, 0.25], [self.f, 0.25]]
