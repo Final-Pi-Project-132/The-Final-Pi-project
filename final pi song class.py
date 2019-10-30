@@ -20,7 +20,6 @@ class Song(object):
         song = [[self.b, 0.0], [self.a, 0.5], [self.g, o.5], [self.b, 0.75], [self.a, 0.5], [self.g, 0.5], [self.g, 0.75], [self.g, 0.25], [self.g, 0.25], [self.g, 0.25], [self.a, 0.25], [self.a, 0.25], [self.a, 0.25], [self.a, 0.25], [self.b, 0.5], [self.a, 0.5], [self.g, 0.5]]
         return [self.name, song]
 
-    def song2():
-        self.name = "song2"
-        song = []
-        
+    def Twinkle_Twinkle():
+        self.name = "Twinkle Twinkle Little Star"
+        song = [[self.c_low, 0.0], [self.c_low, 0.5], [self.g, 0.5], [self.g, 0.5], [self.a, 0.5], [self.a, 0.5], [self.g, 0.5], [self.f, 0.75], [self.f, 0.5], [self.e, 0.5], [self.e, 0.5], [self.d, 0.5], [self.d, 0.5], [self.c_low, 0.5]]
