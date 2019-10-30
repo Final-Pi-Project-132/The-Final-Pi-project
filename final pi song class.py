@@ -18,7 +18,7 @@ class Song(object):
         
     #song hot cross buns
     def HotCrossBuns():
-        self.name = "hCB"
+        self.name = "Hot Cross Buns"
         #song notes along with their duration between notes
         self.song = [[self.b, 0.0], [self.a, 0.5], [self.g, o.5], [self.b, 0.75], [self.a, 0.5],\
                      [self.g, 0.5], [self.g, 0.75], [self.g, 0.25], [self.g, 0.25], [self.g, 0.25],\
