@@ -9,6 +9,7 @@ from time import sleep, time
 import pygame
 from array import array
 from math import sin, pi
+from final_pi_song_class import *
 
 # CONSTANTS
 MIXER_FREQ = 44100
@@ -100,12 +101,15 @@ class Xylophone(object):
     # a dictionary that contains all recordings
     masterRecordings = {}
 
+    # a dictionary that contains all the songs we have
+    masterSongs = {}
+
     # a debugging boolean
     DEBUG = True
 
     # variable that says if the xylophone is in learning mode or not
 
-    def __init__(self, noteList):
+    def __init__(self, noteList, songList):
         # if the list has 8 keys in it, then assign the pins to the notes,
         # lowest notes to highest
         if(len(noteList) == 8):
@@ -118,6 +122,13 @@ class Xylophone(object):
             self.b = noteList[6]
             self.c_high = noteList[7]
 
+        # a for loop add each song to the master song dictionary
+        for x in range(len(songList)):
+            # access the song. which is a list of a name (str)
+            # make a key-value pair of the name of the song and the actual song
+            Xylophone.masterSongs[songList[x].name] = songList[x].song
+
+        # create a recording variable to store the songs made
         self.recording = []
 
     # accessor methods
@@ -423,11 +434,69 @@ class Xylophone(object):
                 print("Finished Freeplay")
                 #print(self.recording)
                 #print(Xylophone.masterRecordings)
-                self.playBack(Xylophone.masterRecordings["Recording 1"])
+                self.playBack(Xylophone.masterRecordings["Recording "+str(len(Xylophone.masterRecordings))])
+
+    # function that plays a song to you
+    # it is essentially the playback function
+    def playSong(self, comp):
+        # get the song aspect of the "song instance"
+        song = comp.song
+        # this song variable is essentially the rec variable for playback
+        self.playBack(song)
+        
 
     # function that teaches you a song
-    def learnSong(self):
-        pass
+    def learnSong(self, comp):
+        # a small quirk needed to make the instance[0].outPin work
+        # without the following lines, you get 'RuntimeError: Please
+            # set pin numbering mode using GPIO.setmode(GPIO.BOARD)
+            # or GPIO.setmode(GPIO.BCM)'
+        GPIO.setmode(GPIO.BCM)
+        self.setUpXylophone()
+
+        # if they are recording the learning session, start a timer
+        if(Xylophone.isRecording):
+            # a list to record lists of every note played and when it was played
+            self.recording = []
+
+        # get the song aspect of the "song instance"
+        song = comp.song
+        for x in range(len(song)):
+            # the note instance is the list of the note and time
+            noteInstance = song[x]
+            # sleep until the note needs to be played
+            sleep(noteInstance[1])
+            # turn on the note's respective LED
+            GPIO.output(noteInstance[0].outPin, GPIO.HIGH)
+            # do nothing until the key is hit
+            while(True):
+                if(GPIO.input(noteInstance[0].inPin)==GPIO.HIGH):
+                    break
+            # play the note
+            noteInstance[0].play(-1)
+            sleep(0.1)
+            noteInstance[0].stop()
+            # if the song is being recorded
+            if(Xylophone.isRecording):
+                # a list containing the note and time will be appended to the recording list
+                instance = [noteInstance[0], time()]
+                # add it to the recording list
+                self.recording.append(instance)
+            # turn off the light
+            GPIO.output(noteInstance[0].outPin, GPIO.LOW)
+        # prep the recording and add it to the master list of recordings
+        if(Xylophone.isRecording):
+            rec = self.prepRecording(self.recording)
+            self.recording = rec
+            Xylophone.masterRecordings["Recording " + str(len(Xylophone.masterRecordings) + 1)] = self.recording
+            
+        if(Xylophone.DEBUG):
+            print("DONE!")
+            self.playBack(Xylophone.masterRecordings["Recording "+str(len(Xylophone.masterRecordings))])
+
+        # clean up the GPIO
+        #GPIO.cleanup()
+            
 
 # create Notes
 c_low = Note(27, 25, 261.63, 1, "Low C")
@@ -441,8 +510,22 @@ c_high = Note(17, 18, 523.25, .4, "High C")
 
 # create note list
 noteList = [c_low, d, e, f, g, a, b, c_high]
-
+# create songs
+hcb = Song(noteList)
+hcb.HotCrossBuns()
+twinkle = Song(noteList)
+twinkle.Twinkle_Twinkle()
+bbyShrk = Song(noteList)
+bbyShrk.Baby_Shark()
+# create a song list
+songList = [hcb, twinkle, bbyShrk]
 #initialize the Xylophone
-xy = Xylophone(noteList)
+xy = Xylophone(noteList, songList)
 xy.setUpXylophone()
 xy.freePlay()
+#xy.learnSong(hcb)
+#xy.playSong(hcb)
+#sleep(1)
+#xy.playSong(twinkle)
+#sleep(1)
+#xy.playSong(bbyShrk)
