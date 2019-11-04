@@ -17,25 +17,25 @@ class Song(object):
         self.song = []
         
     #song hot cross buns
-    def HotCrossBuns():
+    def HotCrossBuns(self):
         self.name = "Hot Cross Buns"
         #song notes along with their duration between notes
-        self.song = [[self.b, 0.0], [self.a, 0.5], [self.g, o.5], [self.b, 0.75], [self.a, 0.5],\
+        self.song = [[self.b, 0.0], [self.a, 0.5], [self.g, 0.5], [self.b, 0.75], [self.a, 0.5],\
                      [self.g, 0.5], [self.g, 0.75], [self.g, 0.25], [self.g, 0.25], [self.g, 0.25],\
                      [self.a, 0.25], [self.a, 0.25], [self.a, 0.25], [self.a, 0.25], [self.b, 0.5],\
                      [self.a, 0.5], [self.g, 0.5]]
         
     
     #song twinkle twinkle little star
-    def Twinkle_Twinkle():
+    def Twinkle_Twinkle(self):
         self.name = "Twinkle Twinkle Little Star"
-        song = [[self.c_low, 0.0], [self.c_low, 0.5], [self.g, 0.5], [self.g, 0.5], [self.a, 0.5], [self.a, 0.5],\
+        self.song = [[self.c_low, 0.0], [self.c_low, 0.5], [self.g, 0.5], [self.g, 0.5], [self.a, 0.5], [self.a, 0.5],\
                 [self.g, 0.5], [self.f, 0.75], [self.f, 0.5], [self.e, 0.5], [self.e, 0.5],\
                 [self.d, 0.5], [self.d, 0.5], [self.c_low, 0.5]]
 
     #song baby shark
-    def Baby_shark():
+    def Baby_Shark(self):
         self.name= "Baby Shark"
-        song = [[self.c_low, 0.0], [self.d, 0.5], [self.f, 0.5], [self.f, 0.25], [self.f, 0.25], [self.f, 0.25], [self.f, 0.25], [self.f, 0.25], [self.f, 0.25],\
+        self.song = [[self.c_low, 0.0], [self.d, 0.5], [self.f, 0.5], [self.f, 0.25], [self.f, 0.25], [self.f, 0.25], [self.f, 0.25], [self.f, 0.25], [self.f, 0.25],\
                 [self.c_low, 0.5], [self.d, 0.5], [self.f, 0.5], [self.f, 0.25], [self.f, 0.25], [self.f, 0.25],\
                 [self.f, 0.25], [self.f, 0.25], [self.f, 0.25]]
