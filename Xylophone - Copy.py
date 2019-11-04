@@ -9,7 +9,7 @@ from time import sleep, time
 import pygame
 from array import array
 from math import sin, pi
-from final_pi_song_class import *
+from final pi song class import *
 
 # CONSTANTS
 MIXER_FREQ = 44100
