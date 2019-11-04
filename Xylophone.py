@@ -1,9 +1,5 @@
 # Xylophone Class
 
-##### TO DEBUG.
-## NEED TO GO TO IF RECORDING AND MAKE AN IF ELSE STATEMENT.
-## IF TIME = INIT TIME, DONT COUNT IT, IT IS THE BUG
-
 import RPi.GPIO as GPIO
 from time import sleep, time
 import pygame
@@ -93,10 +89,10 @@ class Xylophone(object):
 
     # CLASS VARIABLES
     # variable that says if the xylophone is in free play or not
-    freePlay = True
+    freePlay = False
 
     # variable that says if it is recording or not
-    isRecording = True
+    isRecording = False
     
     # a dictionary that contains all recordings
     masterRecordings = {}
@@ -105,7 +101,7 @@ class Xylophone(object):
     masterSongs = {}
 
     # a debugging boolean
-    DEBUG = True
+    DEBUG = False
 
     # variable that says if the xylophone is in learning mode or not
 
@@ -304,137 +300,139 @@ class Xylophone(object):
         if(Xylophone.isRecording):
             # a list to record lists of every note played and when it was played
             self.recording = []
-        try:
-            # as long as free play is true
-            while(Xylophone.freePlay):
-                # The lights will only play if the note is hit
-                if(GPIO.input(self.c_low.inPin)==GPIO.HIGH):
-                    GPIO.output(self.c_low.outPin, GPIO.HIGH)
-                    # play the note
-                    c_low.play(-1)
-                    sleep(0.1)
-                    c_low.stop()
-                    # if the song is being recorded
-                    if(Xylophone.isRecording):
-                        # a list containing the note and time will be appended to the recording list
-                        noteInstance = [self.c_low, time()]
-                        # add it to the recording list
-                        self.recording.append(noteInstance)
-                # turn off the LED
-                GPIO.output(self.c_low.outPin, GPIO.LOW)
-                
+            
+        # as long as free play is true
+        while(Xylophone.freePlay):
+            # The lights will only play if the note is hit
+            if(GPIO.input(self.c_low.inPin)==GPIO.HIGH):
+                GPIO.output(self.c_low.outPin, GPIO.HIGH)
+                # play the note
+                c_low.play(-1)
+                sleep(0.1)
+                c_low.stop()
+                # if the song is being recorded
+                if(Xylophone.isRecording):
+                    # a list containing the note and time will be appended to the recording list
+                    noteInstance = [self.c_low, time()]
+                    # add it to the recording list
+                    self.recording.append(noteInstance)
+            # turn off the LED
+            GPIO.output(self.c_low.outPin, GPIO.LOW)
+            
 
-                if(GPIO.input(self.d.inPin)==GPIO.HIGH):
-                    GPIO.output(self.d.outPin, GPIO.HIGH)
-                    # play the note
-                    d.play(-1)
-                    sleep(0.1)
-                    d.stop()
-                    if(Xylophone.isRecording):
-                        # a list containing the note and time will be appended to the recording list
-                        noteInstance = [self.d, time()]
-                        # add it to the recording list
-                        self.recording.append(noteInstance)
-                # turn off the LED
-                GPIO.output(self.d.outPin, GPIO.LOW)
+            if(GPIO.input(self.d.inPin)==GPIO.HIGH):
+                GPIO.output(self.d.outPin, GPIO.HIGH)
+                # play the note
+                d.play(-1)
+                sleep(0.1)
+                d.stop()
+                if(Xylophone.isRecording):
+                    # a list containing the note and time will be appended to the recording list
+                    noteInstance = [self.d, time()]
+                    # add it to the recording list
+                    self.recording.append(noteInstance)
+            # turn off the LED
+            GPIO.output(self.d.outPin, GPIO.LOW)
 
-                if(GPIO.input(self.e.inPin)==GPIO.HIGH):
-                    GPIO.output(self.e.outPin, GPIO.HIGH)
-                    # play the note
-                    e.play(-1)
-                    sleep(0.1)
-                    e.stop()
-                    if(Xylophone.isRecording):
-                        # a list containing the note and time will be appended to the recording list
-                        noteInstance = [self.e, time()]
-                        # add it to the recording list
-                        self.recording.append(noteInstance)
-                # turn off the LED
-                GPIO.output(self.e.outPin, GPIO.LOW)
+            if(GPIO.input(self.e.inPin)==GPIO.HIGH):
+                GPIO.output(self.e.outPin, GPIO.HIGH)
+                # play the note
+                e.play(-1)
+                sleep(0.1)
+                e.stop()
+                if(Xylophone.isRecording):
+                    # a list containing the note and time will be appended to the recording list
+                    noteInstance = [self.e, time()]
+                    # add it to the recording list
+                    self.recording.append(noteInstance)
+            # turn off the LED
+            GPIO.output(self.e.outPin, GPIO.LOW)
 
-                if(GPIO.input(self.f.inPin)==GPIO.HIGH):
-                    GPIO.output(self.f.outPin, GPIO.HIGH)
-                    # play the note
-                    f.play(-1)
-                    sleep(0.1)
-                    f.stop()
-                    if(Xylophone.isRecording):
-                        # a list containing the note and time will be appended to the recording list
-                        noteInstance = [self.f, time()]
-                        # add it to the recording list
-                        self.recording.append(noteInstance)
-                # turn off the LED
-                GPIO.output(self.f.outPin, GPIO.LOW)
+            if(GPIO.input(self.f.inPin)==GPIO.HIGH):
+                GPIO.output(self.f.outPin, GPIO.HIGH)
+                # play the note
+                f.play(-1)
+                sleep(0.1)
+                f.stop()
+                if(Xylophone.isRecording):
+                    # a list containing the note and time will be appended to the recording list
+                    noteInstance = [self.f, time()]
+                    # add it to the recording list
+                    self.recording.append(noteInstance)
+            # turn off the LED
+            GPIO.output(self.f.outPin, GPIO.LOW)
 
-                if(GPIO.input(self.g.inPin)==GPIO.HIGH):
-                    GPIO.output(self.g.outPin, GPIO.HIGH)
-                    # play the note
-                    g.play(-1)
-                    sleep(0.1)
-                    g.stop()
-                    if(Xylophone.isRecording):
-                        # a list containing the note and time will be appended to the recording list
-                        noteInstance = [self.g, time()]
-                        # add it to the recording list
-                        self.recording.append(noteInstance)
-                # turn off the LED
-                GPIO.output(self.g.outPin, GPIO.LOW)
+            if(GPIO.input(self.g.inPin)==GPIO.HIGH):
+                GPIO.output(self.g.outPin, GPIO.HIGH)
+                # play the note
+                g.play(-1)
+                sleep(0.1)
+                g.stop()
+                if(Xylophone.isRecording):
+                    # a list containing the note and time will be appended to the recording list
+                    noteInstance = [self.g, time()]
+                    # add it to the recording list
+                    self.recording.append(noteInstance)
+            # turn off the LED
+            GPIO.output(self.g.outPin, GPIO.LOW)
 
-                if(GPIO.input(self.a.inPin)==GPIO.HIGH):
-                    GPIO.output(self.a.outPin, GPIO.HIGH)
-                    # play the note
-                    a.play(-1)
-                    sleep(0.1)
-                    a.stop()
-                    if(Xylophone.isRecording):
-                        # a list containing the note and time will be appended to the recording list
-                        noteInstance = [self.a, time()]
-                        # add it to the recording list
-                        self.recording.append(noteInstance)
-                # turn off the LED
-                GPIO.output(self.a.outPin, GPIO.LOW)
+            if(GPIO.input(self.a.inPin)==GPIO.HIGH):
+                GPIO.output(self.a.outPin, GPIO.HIGH)
+                # play the note
+                a.play(-1)
+                sleep(0.1)
+                a.stop()
+                if(Xylophone.isRecording):
+                    # a list containing the note and time will be appended to the recording list
+                    noteInstance = [self.a, time()]
+                    # add it to the recording list
+                    self.recording.append(noteInstance)
+            # turn off the LED
+            GPIO.output(self.a.outPin, GPIO.LOW)
 
-                if(GPIO.input(self.b.inPin)==GPIO.HIGH):
-                    GPIO.output(self.b.outPin, GPIO.HIGH)
-                    # play the note
-                    b.play(-1)
-                    sleep(0.1)
-                    b.stop()
-                    if(Xylophone.isRecording):
-                        # a list containing the note and time will be appended to the recording list
-                        noteInstance = [self.b, time()]
-                        # add it to the recording list
-                        self.recording.append(noteInstance)
-                # turn off the LED
-                GPIO.output(self.b.outPin, GPIO.LOW)
+            if(GPIO.input(self.b.inPin)==GPIO.HIGH):
+                GPIO.output(self.b.outPin, GPIO.HIGH)
+                # play the note
+                b.play(-1)
+                sleep(0.1)
+                b.stop()
+                if(Xylophone.isRecording):
+                    # a list containing the note and time will be appended to the recording list
+                    noteInstance = [self.b, time()]
+                    # add it to the recording list
+                    self.recording.append(noteInstance)
+            # turn off the LED
+            GPIO.output(self.b.outPin, GPIO.LOW)
 
-                if(GPIO.input(self.c_high.inPin)==GPIO.HIGH):
-                    GPIO.output(self.c_high.outPin, GPIO.HIGH)
-                    # play the note
-                    c_high.play(-1)
-                    sleep(0.1)
-                    c_high.stop()
-                    if(Xylophone.isRecording):
-                        # a list containing the note and time will be appended to the recording list
-                        noteInstance = [self.c_high, time()]
-                        # add it to the recording list
-                        self.recording.append(noteInstance)
-                # turn off the LED
-                GPIO.output(self.c_high.outPin, GPIO.LOW) 
+            if(GPIO.input(self.c_high.inPin)==GPIO.HIGH):
+                GPIO.output(self.c_high.outPin, GPIO.HIGH)
+                # play the note
+                c_high.play(-1)
+                sleep(0.1)
+                c_high.stop()
+                if(Xylophone.isRecording):
+                    # a list containing the note and time will be appended to the recording list
+                    noteInstance = [self.c_high, time()]
+                    # add it to the recording list
+                    self.recording.append(noteInstance)
+            # turn off the LED
+            GPIO.output(self.c_high.outPin, GPIO.LOW) 
 
-        except KeyboardInterrupt:
-            GPIO.cleanup()
+        # when it is no long free play, clean up the GPIO
+        GPIO.cleanup()
 
-            # add the recording to the master recording dictionary
-            if(Xylophone.isRecording and (len(self.recording) > 0)):
-                rec = self.prepRecording(self.recording)
-                self.recording = rec
-                Xylophone.masterRecordings["Recording " + str(len(Xylophone.masterRecordings) + 1)] = self.recording
-            if(Xylophone.DEBUG):
-                print("Finished Freeplay")
-                #print(self.recording)
-                #print(Xylophone.masterRecordings)
-                self.playBack(Xylophone.masterRecordings["Recording "+str(len(Xylophone.masterRecordings))])
+        # add the recording to the master recording dictionary
+        if(Xylophone.isRecording and (len(self.recording) > 0)):
+            rec = self.prepRecording(self.recording)
+            self.recording = rec
+            Xylophone.masterRecordings["Recording " + str(len(Xylophone.masterRecordings) + 1)] = self.recording
+
+        # debug Statement
+        if(Xylophone.DEBUG):
+            print("Finished Freeplay")
+            print(self.recording)
+            print(Xylophone.masterRecordings)
+            self.playBack(Xylophone.masterRecordings["Recording "+str(len(Xylophone.masterRecordings))])
 
     # function that plays a song to you
     # it is essentially the playback function
@@ -490,12 +488,13 @@ class Xylophone(object):
             self.recording = rec
             Xylophone.masterRecordings["Recording " + str(len(Xylophone.masterRecordings) + 1)] = self.recording
             
+        # debug statement
         if(Xylophone.DEBUG):
             print("DONE!")
             self.playBack(Xylophone.masterRecordings["Recording "+str(len(Xylophone.masterRecordings))])
 
         # clean up the GPIO
-        #GPIO.cleanup()
+        GPIO.cleanup()
             
 
 # create Notes
