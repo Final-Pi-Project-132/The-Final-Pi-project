@@ -82,6 +82,10 @@ class Menu(Frame):
         self.removePlayButton()
 
     def freeplayButton(self):
+        # set free play class variable to true
+        Xylophone.freePlay = True
+        # run the free play function
+        xylophone.freeplay()
         # Same type of operation as above
         Menu.currentScreen = m3
         self.setMenuImage()
@@ -102,11 +106,13 @@ class Menu(Frame):
         self.recordButtons()
 
     def hotcrossbuns(self):
-        pass
+        xylophone.learnSong(hcb)
 
     def babyshark(self):
-        pass
+        xylophone.learnSong(bbyShrk)
 
+    def twinkle_Twinkle(self):
+        xylophone.learnSong(twinkle)
 
     # This is the function that is triggered when the back button is clicked
     def backButtonFunction(self):
@@ -145,6 +151,10 @@ class Menu(Frame):
 
     # creates the buttons for the selection screen or 'm2'
     def selectionScreenButtons(self):
+        # set Free Play to false
+        Xylophone.freePlay = False
+        # set Recording to false
+        Xylophone.isRecording = False
         # freeplayButton takes the user to the freeplay screen 'm3'
         global freeplaybutton
         freeplaybutton = Button(window, text = 'Freeplay', command = self.freeplayButton)
@@ -185,7 +195,10 @@ class Menu(Frame):
         global shark
         shark = Button(window, text = 'Baby Shark', command = self.babyshark)
         shark.pack()
-
+        global twink
+        twink = Button(window, text = 'Baby Shark', command = self.twinkle_Twinkle)
+        twink.pack()
+        
     # start the recording
     def startrecording(self):
         Xylophone.isRecording = True        
@@ -244,6 +257,7 @@ class Menu(Frame):
 global xylophone
 xylophone = makeXylophone()
 
+# set up the GUI
 WIDTH = 900
 HEIGHT = 900
 window = Tk()
