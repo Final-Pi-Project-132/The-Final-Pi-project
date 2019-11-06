@@ -2,6 +2,8 @@
 from Tkinter import*
 # import Xylophone Class
 from Xylophone import *
+# import threading class
+import threading
 
 # The main screen class that initalizes each menu/ screen with a name and image
 class Screen(object):
@@ -81,11 +83,20 @@ class Menu(Frame):
         # This function, which is implimented later, removes the play button.
         self.removePlayButton()
 
+    # a function to begin threading the freePlay function
+    def start_freePlay_thread(self, event):
+        global freePlay_thread 
+        freePlay_thread = threading.Thread(target=self.freeplayButton)
+        freePlay_thread.daemon = True
+        freePlay_thread.start()
+        window.after(10, self.check_freePlay_thread)
+
+    # a function to check freePlay function
+    def check_freePlay_thread(self):
+        if(freePlay_thread.is_alive()):
+            window.after(1000, self.check_freePlay_thread)
+        
     def freeplayButton(self):
-        # set free play class variable to true
-        Xylophone.freePlay = True
-        # run the free play function
-        xylophone.freeplay()
         # Same type of operation as above
         Menu.currentScreen = m3
         self.setMenuImage()
@@ -95,6 +106,8 @@ class Menu(Frame):
         self.removeSongButton()
         # Calls a fuction that displays the buttons for the next screen
         self.recordButtons()
+        Xylophone.freePlayVar = True
+        xylophone.freePlay()
 
     def songLearningButton(self):
         Menu.currentScreen = m4
@@ -129,12 +142,17 @@ class Menu(Frame):
             self.removeStartButton()
             self.removeStopButton()
             back.pack_forget()
+            # set Free Play to false
+            Xylophone.freePlayVar = False
         # same idea here
         elif Menu.currentScreen == m4:
             Menu.currentScreen = m2
             self.playButton()
             self.removeStartButton()
             self.removeStopButton()
+            hotcross.pack_forget()
+            shark.pack_forget()
+            twink.pack_forget()
             back.pack_forget()
 
     # This creates the button on the title screen (m1)
@@ -151,13 +169,9 @@ class Menu(Frame):
 
     # creates the buttons for the selection screen or 'm2'
     def selectionScreenButtons(self):
-        # set Free Play to false
-        Xylophone.freePlay = False
-        # set Recording to false
-        Xylophone.isRecording = False
         # freeplayButton takes the user to the freeplay screen 'm3'
         global freeplaybutton
-        freeplaybutton = Button(window, text = 'Freeplay', command = self.freeplayButton)
+        freeplaybutton = Button(window, text = 'Freeplay', command = lambda:self.start_freePlay_thread(None))
         freeplaybutton.pack(side = LEFT)
         # the songLearningButton takes the user to the songLearning screen 'm4'
         global songbutton
@@ -184,7 +198,7 @@ class Menu(Frame):
     # creates the back button which helps the user navigate the menus
     def create_backButton(self):
         global back
-        back = Button(window, text = 'go back', command = self.backButtonFunction)
+        back = Button(window, text = 'Go Back', command = self.backButtonFunction)
         if Menu.currentScreen != m1:
             back.pack(side = BOTTOM)
 
@@ -196,7 +210,7 @@ class Menu(Frame):
         shark = Button(window, text = 'Baby Shark', command = self.babyshark)
         shark.pack()
         global twink
-        twink = Button(window, text = 'Baby Shark', command = self.twinkle_Twinkle)
+        twink = Button(window, text = 'Twinkle, Twinkle', command = self.twinkle_Twinkle)
         twink.pack()
         
     # start the recording
@@ -212,39 +226,6 @@ class Menu(Frame):
 
     def removeStopButton(self):
         stop.pack_forget()
-
-    # a function to make everything needed for the Xylophone instance
-    def makeXylophone(self):
-        # create Notes
-        c_low = Note(27, 25, 261.63, 1, "Low C")
-        d = Note(4, 24, 293.67, 1, "D")
-        e = Note(5, 23, 329.63, 1, "E")
-        f = Note(6, 22, 349.23, 1, "F")
-        g = Note(12, 21, 391.99, .8, "G")
-        a = Note(13, 20, 440, .7,"A")
-        b = Note(16, 19, 493.88, .5, "B")
-        c_high = Note(17, 18, 523.25, .4, "High C")
-
-        # create note list
-        noteList = [c_low, d, e, f, g, a, b, c_high]
-
-        # create songs
-        hcb = Song(noteList)
-        hcb.HotCrossBuns()
-        twinkle = Song(noteList)
-        twinkle.Twinkle_Twinkle()
-        bbyShrk = Song(noteList)
-        bbyShrk.Baby_Shark()
-
-        # create a song list
-        songList = [hcb, twinkle, bbyShrk]
-
-        # initialize the Xylophone
-        xy = Xylophone(noteList, songList)
-        xy.setUpXylophone()
-
-        # return the xylophone
-        return xy
     
     # play the Menu
     def play(self):
@@ -252,7 +233,42 @@ class Menu(Frame):
         self.setupGUI()
         self.firstButton()
         self.setMenuImage()
-        
+
+# a function to make everything needed for the Xylophone instance
+def makeXylophone():
+    # create Notes
+    c_low = Note(27, 25, 261.63, 1, "Low C")
+    d = Note(4, 24, 293.67, 1, "D")
+    e = Note(5, 23, 329.63, 1, "E")
+    f = Note(6, 22, 349.23, 1, "F")
+    g = Note(12, 21, 391.99, .8, "G")
+    a = Note(13, 20, 440, .7,"A")
+    b = Note(16, 19, 493.88, .5, "B")
+    c_high = Note(17, 18, 523.25, .4, "High C")
+
+    # create note list
+    noteList = [c_low, d, e, f, g, a, b, c_high]
+
+    # create songs
+    hcb = Song(noteList)
+    hcb.HotCrossBuns()
+    twinkle = Song(noteList)
+    twinkle.Twinkle_Twinkle()
+    bbyShrk = Song(noteList)
+    bbyShrk.Baby_Shark()
+
+    # create a song list
+    songList = [hcb, twinkle, bbyShrk]
+
+    # initialize the Xylophone
+    xy = Xylophone(noteList, songList)
+    xy.setUpXylophone()
+
+    # return the xylophone
+    return xy
+
+GPIO.setwarnings(False)         
+
 # make a global xylophone
 global xylophone
 xylophone = makeXylophone()
@@ -266,3 +282,4 @@ s = Menu(window)
 # play the Menu
 s.play()
 window.mainloop()
+
