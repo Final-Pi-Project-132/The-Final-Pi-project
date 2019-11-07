@@ -1,5 +1,9 @@
 # Xylophone Class
 
+##### TO DEBUG.
+## NEED TO GO TO IF RECORDING AND MAKE AN IF ELSE STATEMENT.
+## IF TIME = INIT TIME, DONT COUNT IT, IT IS THE BUG
+
 import RPi.GPIO as GPIO
 from time import sleep, time
 import pygame
@@ -89,7 +93,7 @@ class Xylophone(object):
 
     # CLASS VARIABLES
     # variable that says if the xylophone is in free play or not
-    freePlay = False
+    freePlayVar = True
 
     # variable that says if it is recording or not
     isRecording = False
@@ -300,9 +304,12 @@ class Xylophone(object):
         if(Xylophone.isRecording):
             # a list to record lists of every note played and when it was played
             self.recording = []
-            
+        
         # as long as free play is true
-        while(Xylophone.freePlay):
+        while(Xylophone.freePlayVar):
+            GPIO.setmode(GPIO.BCM)
+            self.setUpXylophone()
+            
             # The lights will only play if the note is hit
             if(GPIO.input(self.c_low.inPin)==GPIO.HIGH):
                 GPIO.output(self.c_low.outPin, GPIO.HIGH)
@@ -418,7 +425,7 @@ class Xylophone(object):
             # turn off the LED
             GPIO.output(self.c_high.outPin, GPIO.LOW) 
 
-        # when it is no long free play, clean up the GPIO
+        
         GPIO.cleanup()
 
         # add the recording to the master recording dictionary
@@ -426,12 +433,10 @@ class Xylophone(object):
             rec = self.prepRecording(self.recording)
             self.recording = rec
             Xylophone.masterRecordings["Recording " + str(len(Xylophone.masterRecordings) + 1)] = self.recording
-
-        # debug Statement
         if(Xylophone.DEBUG):
             print("Finished Freeplay")
-            print(self.recording)
-            print(Xylophone.masterRecordings)
+            #print(self.recording)
+            #print(Xylophone.masterRecordings)
             self.playBack(Xylophone.masterRecordings["Recording "+str(len(Xylophone.masterRecordings))])
 
     # function that plays a song to you
@@ -488,13 +493,12 @@ class Xylophone(object):
             self.recording = rec
             Xylophone.masterRecordings["Recording " + str(len(Xylophone.masterRecordings) + 1)] = self.recording
             
-        # debug statement
         if(Xylophone.DEBUG):
             print("DONE!")
             self.playBack(Xylophone.masterRecordings["Recording "+str(len(Xylophone.masterRecordings))])
 
         # clean up the GPIO
-        GPIO.cleanup()
+        #GPIO.cleanup()
             
 
 # create Notes
@@ -521,7 +525,7 @@ songList = [hcb, twinkle, bbyShrk]
 #initialize the Xylophone
 xy = Xylophone(noteList, songList)
 xy.setUpXylophone()
-xy.freePlay()
+#xy.freePlay()
 #xy.learnSong(hcb)
 #xy.playSong(hcb)
 #sleep(1)
