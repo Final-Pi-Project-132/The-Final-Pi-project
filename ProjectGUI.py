@@ -85,7 +85,7 @@ class Menu(Frame):
 
     # a function to begin threading the freePlay function
     def start_freePlay_thread(self, event):
-        global freePlay_thread 
+        global freePlay_thread
         freePlay_thread = threading.Thread(target=self.freeplayButton)
         freePlay_thread.daemon = True
         freePlay_thread.start()
@@ -95,7 +95,7 @@ class Menu(Frame):
     def check_freePlay_thread(self):
         if(freePlay_thread.is_alive()):
             window.after(1000, self.check_freePlay_thread)
-        
+
     def freeplayButton(self):
         # Same type of operation as above
         Menu.currentScreen = m3
@@ -127,6 +127,13 @@ class Menu(Frame):
     def twinkle_Twinkle(self):
         xylophone.learnSong(twinkle)
 
+    def drop(self):
+        global dropdown
+        variable = StringVar(window)
+        dropdown = OptionMenu(window, variable, *Xylophone.masterSongs.keys())
+        # var.set(default)
+        dropdown.pack()
+
     # This is the function that is triggered when the back button is clicked
     def backButtonFunction(self):
         # if the current screen is m2 its changed to m1 etc.
@@ -154,6 +161,7 @@ class Menu(Frame):
             shark.pack_forget()
             twink.pack_forget()
             back.pack_forget()
+            drop.pack_forget()
 
     # This creates the button on the title screen (m1)
     # and when its pressed the command calls the playButton function which was
@@ -212,10 +220,10 @@ class Menu(Frame):
         global twink
         twink = Button(window, text = 'Twinkle, Twinkle', command = self.twinkle_Twinkle)
         twink.pack()
-        
+
     # start the recording
     def startrecording(self):
-        Xylophone.isRecording = True        
+        Xylophone.isRecording = True
 
     # stop the recording
     def stoprecording(self):
@@ -226,7 +234,7 @@ class Menu(Frame):
 
     def removeStopButton(self):
         stop.pack_forget()
-    
+
     # play the Menu
     def play(self):
         self.createMenus()
@@ -267,7 +275,7 @@ def makeXylophone():
     # return the xylophone
     return xy
 
-GPIO.setwarnings(False)         
+GPIO.setwarnings(False)
 
 # make a global xylophone
 global xylophone
@@ -282,4 +290,3 @@ s = Menu(window)
 # play the Menu
 s.play()
 window.mainloop()
-
