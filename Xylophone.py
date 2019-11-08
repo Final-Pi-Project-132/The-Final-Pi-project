@@ -98,8 +98,9 @@ class Xylophone(object):
     # variable that says if it is recording or not
     isRecording = False
     
-    # a dictionary that contains all recordings
-    masterRecordings = {}
+    # a list that contains all recordings
+    # starts with a 'dummy' recording
+    masterRecordings = []
 
     # a dictionary that contains all the songs we have
     masterSongs = {}
@@ -432,12 +433,12 @@ class Xylophone(object):
         if(Xylophone.isRecording and (len(self.recording) > 0)):
             rec = self.prepRecording(self.recording)
             self.recording = rec
-            Xylophone.masterRecordings["Recording " + str(len(Xylophone.masterRecordings) + 1)] = self.recording
+            Xylophone.masterRecordings.append(["Recording " + str(len(Xylophone.masterRecordings) + 1), self.recording])
         if(Xylophone.DEBUG):
             print("Finished Freeplay")
             #print(self.recording)
             #print(Xylophone.masterRecordings)
-            self.playBack(Xylophone.masterRecordings["Recording "+str(len(Xylophone.masterRecordings))])
+        
 
     # function that plays a song to you
     # it is essentially the playback function
@@ -491,8 +492,8 @@ class Xylophone(object):
         if(Xylophone.isRecording):
             rec = self.prepRecording(self.recording)
             self.recording = rec
-            Xylophone.masterRecordings["Recording " + str(len(Xylophone.masterRecordings) + 1)] = self.recording
-            
+            Xylophone.masterRecordings.append(["Recording " + str(len(Xylophone.masterRecordings) + 1), self.recording])
+
         if(Xylophone.DEBUG):
             print("DONE!")
             self.playBack(Xylophone.masterRecordings["Recording "+str(len(Xylophone.masterRecordings))])
@@ -522,13 +523,6 @@ bbyShrk = Song(noteList)
 bbyShrk.Baby_Shark()
 # create a song list
 songList = [hcb, twinkle, bbyShrk]
-#initialize the Xylophone
-xy = Xylophone(noteList, songList)
-xy.setUpXylophone()
-#xy.freePlay()
-#xy.learnSong(hcb)
-#xy.playSong(hcb)
-#sleep(1)
-#xy.playSong(twinkle)
-#sleep(1)
-#xy.playSong(bbyShrk)
+# add a dummy recording to the master recording list
+Xylophone.masterRecordings.append(["Recording 1", hcb.song])
+
