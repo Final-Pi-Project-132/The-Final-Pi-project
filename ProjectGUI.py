@@ -82,6 +82,8 @@ class Menu(Frame):
         self.selectionScreenButtons()
         # This function, which is implimented later, removes the play button.
         self.removePlayButton()
+        # call the drop function
+        self.drop()
 
     # a function to begin threading the freePlay function
     def start_freePlay_thread(self, event):
@@ -97,6 +99,7 @@ class Menu(Frame):
             window.after(1000, self.check_freePlay_thread)
 
     def freeplayButton(self):
+        dropdown.pack_forget()
         # Same type of operation as above
         Menu.currentScreen = m3
         self.setMenuImage()
@@ -105,34 +108,59 @@ class Menu(Frame):
         self.removeFreeplayButton()
         self.removeSongButton()
         # Calls a fuction that displays the buttons for the next screen
-        self.recordButtons()
+        #self.recordButtons()
         Xylophone.freePlayVar = True
         xylophone.freePlay()
+        # forget the drop down menu
 
     def songLearningButton(self):
         Menu.currentScreen = m4
-        #self.backButton()
         self.userSongs()
         self.setMenuImage()
         self.removeFreeplayButton()
         self.removeSongButton()
         self.recordButtons()
+        # forget the drop down menu
+        dropdown.pack_forget()
 
     def hotcrossbuns(self):
+        GPIO.cleanup()
         xylophone.learnSong(hcb)
 
     def babyshark(self):
+        GPIO.cleanup()
         xylophone.learnSong(bbyShrk)
 
     def twinkle_Twinkle(self):
+        GPIO.cleanup()
         xylophone.learnSong(twinkle)
 
+    # creates a drop down menu full of recordings
     def drop(self):
         global dropdown
         variable = StringVar(window)
-        dropdown = OptionMenu(window, variable, *Xylophone.masterSongs.keys())
-        # var.set(default)
-        dropdown.pack()
+        # a list to contain all song instances
+        recList = []
+        # a for loop to get just the instance of the songs
+        for x in range(len(Xylophone.masterRecordings)):
+            recInstance = Xylophone.masterRecordings[x]
+            # add the name of the recording instance
+            recList.append(recInstance[0])
+        variable.set(recList[0])
+        dropdown = OptionMenu(window, variable, *recList)
+
+        # a nested function that will find the selected drop down option and play it
+        def playRec(*arg):
+            selectedVal = variable.get()
+            comp = []
+            for x in range(len(Xylophone.masterRecordings)):
+                recInstance = Xylophone.masterRecordings[x]
+                if(recInstance[0] == selectedVal):
+                    comp = recInstance[1]
+            xylophone.playBack(comp)
+                
+        # when a rec is hit it will play
+        variable.trace("w", playRec)
 
     # This is the function that is triggered when the back button is clicked
     def backButtonFunction(self):
@@ -146,11 +174,15 @@ class Menu(Frame):
         elif Menu.currentScreen == m3:
             Menu.currentScreen = m2
             self.playButton()
-            self.removeStartButton()
-            self.removeStopButton()
+            #self.removeStartButton()
+            #self.removeStopButton()
             back.pack_forget()
             # set Free Play to false
             Xylophone.freePlayVar = False
+            self.drop()
+            dropdown.pack()
+            GPIO.cleanup()
+            
         # same idea here
         elif Menu.currentScreen == m4:
             Menu.currentScreen = m2
@@ -161,7 +193,10 @@ class Menu(Frame):
             shark.pack_forget()
             twink.pack_forget()
             back.pack_forget()
-            drop.pack_forget()
+            self.drop()
+            dropdown.pack()
+            GPIO.cleanup()
+            
 
     # This creates the button on the title screen (m1)
     # and when its pressed the command calls the playButton function which was
@@ -185,6 +220,7 @@ class Menu(Frame):
         global songbutton
         songbutton = Button(window, text = 'Song Learning', command = self.songLearningButton)
         songbutton.pack(side = RIGHT)
+        
 
     # Removes the freeplay and song button once the user leaves selection screen
     # page
@@ -220,6 +256,7 @@ class Menu(Frame):
         global twink
         twink = Button(window, text = 'Twinkle, Twinkle', command = self.twinkle_Twinkle)
         twink.pack()
+
 
     # start the recording
     def startrecording(self):
@@ -280,11 +317,11 @@ GPIO.setwarnings(False)
 # make a global xylophone
 global xylophone
 xylophone = makeXylophone()
+GPIO.cleanup()
 
 # set up the GUI
-WIDTH = 900
-HEIGHT = 900
 window = Tk()
+window.geometry('800x800')
 window.title("Xylophone Simulator")
 s = Menu(window)
 # play the Menu
